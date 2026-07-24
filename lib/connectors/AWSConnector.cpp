@@ -8,3 +8,7 @@ void AWSConnector::connect() {
   client.begin(AWS_IOT_ENDPOINT, 8883, wifiClient);
   client.connect("SimpleESP32Publisher");
 };
+
+bool AWSConnector::connected() {
+    return client.connected();
+};

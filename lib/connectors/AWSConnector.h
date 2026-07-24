@@ -6,6 +6,7 @@
 class AWSConnector {
     public:
         void connect();
+        bool connected();
     private:
     WiFiClientSecure wifiClient = WiFiClientSecure();
     const int bufferSize = 256;

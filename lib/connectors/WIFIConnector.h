@@ -3,6 +3,8 @@
 class WIFIConnector {
     public:
     void connect();
+    bool connected();
+    
 
     private:
 
