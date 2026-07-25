@@ -29,4 +29,3 @@ bool Button::isButtonPressed() {
   lastRawState = currentRawState;
   return pressDetected;
 }
-}

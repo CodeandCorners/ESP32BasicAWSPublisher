@@ -3,8 +3,8 @@
 class NTPTimeConnector{
     public:
         void set();
+        bool isTimeSet();
     private:
         const char* ntpServer = "pool.ntp.org";
-        const long  gmtOffset_sec = 0;
-        const int   daylightOffset_sec = 3600;
+        const char* timezone = "GMT0BST,M3.5.0/1,M10.5.0/2";
 };

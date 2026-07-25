@@ -2,15 +2,26 @@
 #include "../lib/connectors/AWSConnector.h"
 #include "../lib/connectors/WIFIConnector.h"
 #include "../lib/connectors/NTPTimeConnector.h"
+#include "../lib/hardware/Button.h"
+#include "../lib/services/ButtonQueue.h"
+#include "../lib/services/PressService.h"
 
 WIFIConnector wifiConnector;
-AWSConnector awsConnector;
 NTPTimeConnector ntpTimeConnector;
+Button button1(4);
+ButtonQueue buttonQueue;
+AWSConnector awsConnector;
+PressService pressService(buttonQueue, button1, awsConnector);
+
+
 const long delayBeforeTryingWifi = 500;
 const long delayBeforeTryingAWS = 500;
+const long delayBeforePublishing = 100;
+
 
 long reconnectWifi(long& lastProblemWithWifi) {
   long now = millis();
+    Serial.println("Not connected to WIFI");
   if(now - lastProblemWithWifi > delayBeforeTryingWifi) {
       Serial.println("Main, trying to reconnect to WIFI");
       wifiConnector.connect();
@@ -21,35 +32,56 @@ long reconnectWifi(long& lastProblemWithWifi) {
     }
 };
 long reconnectAWS(long& lastProblemWithAWS) {
+  Serial.println("Not connected to AWS");
   long now = millis();
   if(now - lastProblemWithAWS > delayBeforeTryingAWS) {
       Serial.println("Main, trying to reconnect to AWS");
       awsConnector.connect();
       return now;
     } else {
-      Serial.println("Main, WIFI isn't connected but will not attempt right now");
+      Serial.println("Main, AWS isn't connected but will not attempt right now");
        return now;
     }
 };
 
+long publishLoop(long& lastPublish) {
+  long now = millis();
+  if(now - lastPublish > delayBeforePublishing) {
+    pressService.checkAndPublish();
+      return now;
+    } else {
+      return now;
+    }
+}
+
 void setup() {
+  delay(2000);
   Serial.begin(115200);
   wifiConnector.connect();
   ntpTimeConnector.set();
+  while (!ntpTimeConnector.isTimeSet()) {
+        Serial.print(".");
+        delay(500);
+    }
+
+    delay(2000);
   awsConnector.connect();
   Serial.println("Intial setup complete, wifi, ntp aws connected");
 }
 
-
 void loop() {
   long lastProblemWithWifi = 0;
   long lastProblemWithAWS = 0;
+  long lastPublish = 0;
+
+  pressService.checkAndPush();
+
   if (!wifiConnector.connected()) {
     lastProblemWithWifi = reconnectWifi(lastProblemWithWifi);
   } else if (!awsConnector.connected()) {
     lastProblemWithAWS = reconnectAWS(lastProblemWithAWS);
   } else {
-    // main logic here 
-
+    Serial.println("Normal BAU");
+    lastPublish = publishLoop(lastPublish);
   }
 }

@@ -1,9 +1,16 @@
+#pragma once
 #include <Arduino.h>
+
 class Button {
     public:
+        explicit Button(int pin): pin(pin){};
         void connect();
         bool isButtonPressed();
     private:
-        int pin;
-        const unsigned long DEBOUNCE_DELAY = 50; // 50 milliseconds debounce tim
+        const int pin;
+
+        int lastRawState = HIGH;
+        int debouncedState = HIGH;
+        unsigned long lastDebounceTime = 0;
+        const unsigned long debounceDelay = 50; // ms
 };
