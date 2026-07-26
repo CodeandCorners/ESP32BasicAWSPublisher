@@ -5,6 +5,10 @@
 void NTPTimeConnector::set(){
     Serial.println("Setting time");
     configTzTime(timezone, ntpServer);
+    if(!isTimeSet()) {
+        Serial.print("NTP_SETTING_TIME");
+        delay(500);
+    }
 };
 
 bool NTPTimeConnector::isTimeSet(){

@@ -10,6 +10,10 @@ void WIFIConnector::connect() {
     Serial.print(".");
   }
 };
+void WIFIConnector::reconnect() {
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(WIFI_SSID, WIFI_PASS);
+};
 
 bool WIFIConnector::connected() {
  return WiFi.status() == WL_CONNECTED; 
