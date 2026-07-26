@@ -1,5 +1,16 @@
+#pragma once
+#include <ArduinoJson.h>
 
 struct ButtonPress {
     int epochNowMilli;
-    bool buttonPressed;
+
+
+    String toJson() const {
+        JsonDocument doc;
+        doc["timestamp_ms"] = epochNowMilli;
+
+        String output;
+        serializeJson(doc, output);
+        return output;
+    }
 };
