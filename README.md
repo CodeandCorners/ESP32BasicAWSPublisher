@@ -9,8 +9,8 @@ This is a service that is intended to be loaded on an ESP32 dev device, minor tw
 - Rename config.example.h to config.h
 - Ensure that config.h has been updated with all WIFI values & all AWS MQTT values
 - "Upload and monitor" this repo with config.h to ESP32
-- User clicks button 1 time within 1 second, an event is eventually published to AWS Topic containing amount of clicks
-- User clicks button 2 times within 1 second, an event is eventually published to AWS Topic containing amount of clicks
+- User clicks button 1 time within 2 seconds, an event is eventually published to AWS Topic containing amount of clicks
+- User clicks button 2 times within 2 seconds, an event is eventually published to AWS Topic containing amount of clicks
 - and so on
 
 
