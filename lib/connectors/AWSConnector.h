@@ -2,13 +2,13 @@
 
 #include <WiFiClientSecure.h>
 #include <MQTTClient.h>
-#include "../models/ButtonPress.h"
+#include "../models/AWSEvent.h"
 
 class AWSConnector {
     public:
         void connect();
         bool connected();
-        bool publishOne(ButtonPress press);
+        bool publishOne(AWSEvent awsEvent);
         void maintain();
         void printLastError();
         void setCerts();

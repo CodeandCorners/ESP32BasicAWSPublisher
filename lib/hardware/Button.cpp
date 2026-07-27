@@ -5,6 +5,7 @@ void Button::connect() {
     pinMode(pin, INPUT_PULLUP);
 };
 
+
 bool Button::isButtonPressed() {
   static int lastRawState = HIGH;
   static int debouncedState = HIGH;

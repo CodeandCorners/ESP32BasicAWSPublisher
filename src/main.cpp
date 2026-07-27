@@ -4,14 +4,16 @@
 #include "../lib/connectors/NTPTimeConnector.h"
 #include "../lib/hardware/Button.h"
 #include "../lib/services/ButtonQueue.h"
+#include "../lib/services/AWSQueue.h"
 #include "../lib/services/PressService.h"
 
 WIFIConnector wifiConnector;
 NTPTimeConnector ntpTimeConnector;
-Button button1(4);
-ButtonQueue buttonQueue;
+Button button1(4, "mainButton1");
+ButtonQueue buttonQueue(button1);
+AWSQueue awsQueue;
 AWSConnector awsConnector;
-PressService pressService(buttonQueue, button1, awsConnector);
+PressService pressService(buttonQueue, awsQueue, awsConnector);
 
 
 const long delayBeforeTryingWifi = 5000;
