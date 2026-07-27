@@ -1,4 +1,4 @@
-# ESP32 publisher via button press
+# ESP32 AWS MQTT publisher via button press
 
 This is a service that is intended to be loaded on an ESP32 dev device, minor tweaks may be required if variant of esp32.
 
