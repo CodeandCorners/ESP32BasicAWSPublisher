@@ -36,20 +36,18 @@ bool AWSConnector::connected() {
 void AWSConnector::printLastError() {
 
         int mqttErr = client.lastError();
-        Serial.printf("❌ MQTT Client Error Code: %d\n", mqttErr);
+        Serial.printf("MQTT Client Error Code: %d\n", mqttErr);
 
-        // B. Print Detailed mbedTLS SSL Error String
         char errorBuf[100];
-        // lastError() returning negative values usually maps to mbedTLS
+
         mbedtls_strerror(mqttErr, errorBuf, sizeof(errorBuf));
-        Serial.printf("❌ Translated SSL Reason: %s\n", errorBuf);
+        Serial.printf("Translated SSL Reason: %s\n", errorBuf);
 }
 
 bool AWSConnector::publishOne(AWSEvent awsEvent) {
     String payload = awsEvent.toJson();
     Serial.println(payload);
     
-    // client.publish expects const char* for topic and payload
     bool success = client.publish(MQTT_PUB_TOPIC, payload.c_str(),false, 0);
 
     if (!success) {

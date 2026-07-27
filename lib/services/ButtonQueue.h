@@ -12,7 +12,7 @@ class ButtonQueue {
         std::vector<ButtonPress> queue;
 
         void push(ButtonPress bp);
-        long getNowMs();
-        const int timeMsBufferForEvents = 500;
+        uint64_t getNowMs();
+        const int timeMsBufferForEvents = 1000;
         Button& button1;
 };

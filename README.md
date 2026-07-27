@@ -20,15 +20,13 @@ This is a service that is intended to be loaded on an ESP32 dev device, minor tw
 - Time on ESP32 is setup via common NTP
 - 2 offline queue's exist on the device, which can be updated regardless of current connectivity to wifi/AWS
 - Any Queued messages that are not sent are lost if device loses power
-  
 
-## Setup
 
-- config.h needs creating from config.example.h
-- AWS IOT "thing" needs creating, connection kit downloading
-- AWS MQTT policies for connecting and publishing need to be set correctly
-- Config setting as per above
-
+## Key config
+- Button Queue.timeMsBufferForEvents, how long you want before and after a click to accumulate click counts before sending
+- main; delayBeforeTryingWifi, delayBeforeTryingAWS. reconnection magic, These can be amended, but I'd recommend leaving as is
+- main; delayBeforePublishing - how often we publish to AWS, I think this is fine based on usage, if you want to send 1 event more often than this time, this time needs to be increased. Its natural throttling to save $
+- main; button1 pin = 4, can be changed to correspond to different GPIO usage on board
 
 ## Hardware
 | Component             | Module Pin | ESP32 Pin |
@@ -42,3 +40,7 @@ This is a service that is intended to be loaded on an ESP32 dev device, minor tw
 ## Arduino notes 
 - LOW == ON == 0
 - HIGH == OFF == 1
+
+
+## Notes
+- one small bug, startup it registers the button as low and sends a message
