@@ -1,14 +1,15 @@
 #pragma once
 #include "ButtonQueue.h"
+#include "AWSQueue.h"
 #include "../hardware/Button.h"
 #include "../connectors/AWSConnector.h"
 class PressService{
     public:
-        explicit PressService(ButtonQueue& bq, Button& button1, AWSConnector& aws): bq(bq), button1(button1), aws(aws){};
+        explicit PressService(ButtonQueue& bq, AWSQueue& aq, AWSConnector& aws): bq(bq), aq(aq), aws(aws){};
          void checkAndPush();
          void checkAndPublish();
     private:
         ButtonQueue& bq;
-        Button& button1;
+        AWSQueue& aq;
         AWSConnector& aws;
 };

@@ -45,8 +45,8 @@ void AWSConnector::printLastError() {
         Serial.printf("❌ Translated SSL Reason: %s\n", errorBuf);
 }
 
-bool AWSConnector::publishOne(ButtonPress press) {
-    String payload = press.toJson();
+bool AWSConnector::publishOne(AWSEvent awsEvent) {
+    String payload = awsEvent.toJson();
     Serial.println(payload);
     
     // client.publish expects const char* for topic and payload
