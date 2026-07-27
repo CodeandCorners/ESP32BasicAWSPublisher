@@ -9,7 +9,7 @@ void Button::connect() {
 bool Button::isButtonPressed() {
   static int lastRawState = HIGH;
   static int debouncedState = HIGH;
-  static unsigned long lastDebounceTime = 0;
+  static uint64_t lastDebounceTime = 0;
   
   int currentRawState = digitalRead(pin);
   bool pressDetected = false;

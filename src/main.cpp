@@ -19,12 +19,12 @@ PressService pressService(buttonQueue, awsQueue, awsConnector);
 const long delayBeforeTryingWifi = 5000;
 const long delayBeforeTryingAWS = 1000;
 const long delayBeforePublishing = 5000;
-      long lastProblemWithWifi = 0;
-      long lastProblemWithAWS = 0;
-      long lastPublish = 0;
+      uint64_t lastProblemWithWifi = 0;
+      uint64_t lastProblemWithAWS = 0;
+      uint64_t lastPublish = 0;
 
-long reconnectWifi(long lastProblem) {
-  long now = millis();
+long reconnectWifi(uint64_t lastProblem) {
+  uint64_t now = millis();
     Serial.println("Not connected to WIFI");
   if(now - lastProblem > delayBeforeTryingWifi) {
       Serial.println("Main, trying to reconnect to WIFI");
@@ -35,9 +35,9 @@ long reconnectWifi(long lastProblem) {
        return lastProblem;
     }
 };
-long reconnectAWS(long lastProblem) {
+long reconnectAWS(uint64_t lastProblem) {
   Serial.println("Not connected to AWS");
-  long now = millis();
+  uint64_t now = millis();
   if(now - lastProblem > delayBeforeTryingAWS) {
       Serial.println("Main, trying to reconnect to AWS");
       awsConnector.connect();
@@ -50,8 +50,8 @@ long reconnectAWS(long lastProblem) {
     }
 };
 
-long publishLoop(long lastPub) {
-  long now = millis();
+uint64_t publishLoop(uint64_t lastPub) {
+  uint64_t now = millis();
 
   if((now - lastPub) > delayBeforePublishing) {
     pressService.checkAndPublish();
@@ -75,6 +75,7 @@ void setup() {
 }
 
 void loop() {
+  buttonQueue.checkAndPush();
   pressService.checkAndPush();
 
   if (!wifiConnector.connected()) {

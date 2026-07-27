@@ -2,7 +2,7 @@
 #include <ArduinoJson.h>
 
 struct AWSEvent {
-    long epochNowMs;
+    uint64_t epochNowMs;
     const char* buttonName;
     int clicks;
 
